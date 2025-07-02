@@ -41,3 +41,19 @@ WHERE
     GROUP BY 
       puesto
   );
+
+-- 4 Mostrar el total de empleados por municipio y el nombre del departamento al que pertenecen.
+
+SELECT 
+  m.nombre AS municipio,
+  d.nombre AS departamento,
+  COUNT(e.empleado_id) AS total_empleados
+FROM 
+  empleados e
+  JOIN sucursal s ON e.sucursalid = s.id
+  JOIN municipio m ON s.municipioid = m.id
+  JOIN departamento d ON m.depid = d.id
+GROUP BY 
+  m.id, m.nombre, d.nombre
+ORDER BY 
+  d.nombre, m.nombre;
