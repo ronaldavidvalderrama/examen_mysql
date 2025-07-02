@@ -1,6 +1,6 @@
 -- Active: 1751455831511@@127.0.0.1@3307@examen
 
--- Mostrar los empleados junto al país donde laboran.
+-- 1 Mostrar los empleados junto al país donde laboran.
 
 SELECT
     e.nombre AS Nombre_empleado,
@@ -23,3 +23,21 @@ FROM
   LEFT JOIN municipio m ON c.municipioid = m.id
   LEFT JOIN departamento d ON m.depid = d.id
   LEFT JOIN pais p ON d.paisid = p.id;
+
+
+-- 3 Obtener los nombres de los empleados cuyo puesto existe en más de una sucursal.
+
+SELECT 
+  e.nombre,
+  e.puesto
+FROM 
+  empleados e
+WHERE 
+  e.puesto IN (
+    SELECT 
+      puesto
+    FROM 
+      empleados
+    GROUP BY 
+      puesto
+  );
