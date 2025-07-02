@@ -26,3 +26,17 @@ CALL ps_registrar_cliente_unico('Adrian Ruiz',
                                 '3123456789',
                                 'Calle 123 #45-67',
                                 '2025-02-01', 5);
+
+
+-- 2. Cree un procedimiento por nombre `ps_obtener_clientes_por_municipio` donde liste todos los clientes de un municipio .
+
+DELIMITER $$
+CREATE PROCEDURE `ps_obtener_clientes_por_municipio`(
+    IN municipio_nombre VARCHAR(80)
+)
+BEGIN
+    SELECT * FROM clientes WHERE municipioid = (SELECT id FROM municipio WHERE nombre = municipio_nombre);
+END$$
+DELIMITER ;
+
+CALL ps_obtener_clientes_por_municipio('Cali');
