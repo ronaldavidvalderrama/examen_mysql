@@ -12,16 +12,16 @@ INSERT INTO pais (nombre) VALUES
 
 
 INSERT INTO departamento (nombre, paisid) VALUES
-(1, 'Antioquia', 1),
-(2, 'Cundinamarca', 1),
-(3, 'Valle del Cauca', 1),
-(4, 'Atlántico', 1),
-(5, 'Bolívar', 1),
-(6, 'Santander', 1),
-(7, 'Nariño', 1),
-(8, 'Caldas', 1),
-(9, 'Tolima', 1),
-(10, 'Boyacá', 1);
+( 'Antioquia', 1),
+( 'Cundinamarca', 1),
+( 'Valle del Cauca', 1),
+( 'Atlántico', 1),
+( 'Bolívar', 1),
+( 'Santander', 1),
+( 'Nariño', 1),
+( 'Caldas', 1),
+( 'Tolima', 1),
+( 'Boyacá', 1);
 
 
 INSERT INTO municipio (id, nombre, depid) VALUES
@@ -660,6 +660,7 @@ INSERT INTO productos (nombre, categoria, precio, stock) VALUES
 ('TV 4K Panasonic TV 4K 616', 'Gaming', 843532.86, 103),
 ('Laptop JBL Laptop 997', 'Accesorios', 2917412.78, 146);
 
+SELECT * FROM pedidos;
 INSERT INTO pedidos (cliente_id, empleado_id, fecha_pedido, estado) VALUES (1, 38, '2023-06-22', 'Pendiente');
 INSERT INTO pedidos (cliente_id, empleado_id, fecha_pedido, estado) VALUES (1, 20, '2023-12-03', 'Entregado');
 INSERT INTO pedidos (cliente_id, empleado_id, fecha_pedido, estado) VALUES (1, 74, '2023-02-11', 'Enviado');
@@ -1061,7 +1062,7 @@ INSERT INTO pedidos (cliente_id, empleado_id, fecha_pedido, estado) VALUES (100,
 INSERT INTO pedidos (cliente_id, empleado_id, fecha_pedido, estado) VALUES (100, 44, '2023-10-03', 'Enviado');
 INSERT INTO pedidos (cliente_id, empleado_id, fecha_pedido, estado) VALUES (100, 14, '2023-05-11', 'Cancelado');
 
-INSERT INTO productosuc (productoid, sucursalid) VALUES
+INSERT INTO producto_suc (productoid, sucursalid) VALUES
 (11, 1),
 (42, 1),
 (45, 1),
