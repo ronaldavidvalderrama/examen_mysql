@@ -1,4 +1,4 @@
--- Active: 1751455831511@@127.0.0.1@3307@mysql
+-- Active: 1751455831511@@127.0.0.1@3307@examenn
 -- Active: 1751455831511@@127.0.0.1@3307@mysql
 -- MySQL dump 10.13  Distrib 8.4.3, for Linux (aarch64)
 --
@@ -22,7 +22,7 @@
 --
 CREATE DATABASE IF NOT EXISTS examen;
 
-USE examen
+USE examen;
 
 DROP TABLE IF EXISTS `clientes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -30,15 +30,13 @@ DROP TABLE IF EXISTS `clientes`;
 CREATE TABLE `clientes` (
   `cliente_id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(80) DEFAULT NULL,
-  `email` varchar(50) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL UNIQUE,
   `telefono` varchar(15) DEFAULT NULL,
   `direccion` varchar(50) DEFAULT NULL,
   `fecha_registro` date DEFAULT NULL,
   `municipioid` int DEFAULT NULL,
   PRIMARY KEY (`cliente_id`),
-  UNIQUE KEY `email` (`email`),
-  KEY `clientes_municipio_FK` (`municipioid`),
-  CONSTRAINT `clientes_municipio_FK` FOREIGN KEY (`municipio_id`) REFERENCES `municipio` (`id`)
+  FOREIGN KEY (`municipioid`) REFERENCES `municipio` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -63,8 +61,7 @@ CREATE TABLE `departamento` (
   `nombre` varchar(80) NOT NULL,
   `paisid` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `departamento_pais_FK` (`paisid`),
-  CONSTRAINT `departamento_pais_FK` FOREIGN KEY (`paisid`) REFERENCES `pais` (`id`)
+  FOREIGN KEY (`paisid`) REFERENCES `pais` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -92,10 +89,8 @@ CREATE TABLE `detalles_pedidos` (
   `precio_unitario` decimal(10,2) DEFAULT NULL,
   `sucid` int DEFAULT NULL,
   PRIMARY KEY (`detalle_id`),
-  KEY `pedido_id` (`pedido_id`),
-  KEY `detalles_pedidos_producto_suc_FK` (`producto_id`,`sucid`),
-  CONSTRAINT `detalles_pedidos_ibfk_1` FOREIGN KEY (`pedido_id`) REFERENCES `pedidos` (`pedido_id`),
-  CONSTRAINT `detalles_pedidos_producto_suc_FK` FOREIGN KEY (`productoid`, `sucid`) REFERENCES `producto_suc` (`productoid`, `sucursalid`)
+  FOREIGN KEY (`pedido_id`) REFERENCES `pedidos` (`pedido_id`),
+  FOREIGN KEY (`producto_id`, `sucid`) REFERENCES `producto_suc` (`productoid`, `sucursalid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -123,8 +118,7 @@ CREATE TABLE `empleados` (
   `salario` decimal(10,2) DEFAULT NULL,
   `sucursalid` int DEFAULT NULL,
   PRIMARY KEY (`empleado_id`),
-  KEY `empleados_sucursal_FK` (`sucursalid`),
-  CONSTRAINT `empleados_sucursal_FK` FOREIGN KEY (`sucursalid`) REFERENCES `sucursal` (`id`)
+  FOREIGN KEY (`sucursalid`) REFERENCES `sucursal` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -146,9 +140,8 @@ DROP TABLE IF EXISTS `empresa`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `empresa` (
   `id` varchar(20) NOT NULL,
-  `nombre` varchar(80) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `empresa_unique` (`nombre`)
+  `nombre` varchar(80) NOT NULL UNIQUE,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -173,8 +166,7 @@ CREATE TABLE `municipio` (
   `nombre` varchar(80) DEFAULT NULL,
   `depid` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `municipio_departamento_FK` (`depid`),
-  CONSTRAINT `municipio_departamento_FK` FOREIGN KEY (`depid`) REFERENCES `departamento` (`id`)
+  FOREIGN KEY (`depid`) REFERENCES `departamento` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -195,10 +187,9 @@ DROP TABLE IF EXISTS `pais`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pais` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(80) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `pais_unique` (`nombre`)
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(80) NOT NULL UNIQUE,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -225,10 +216,8 @@ CREATE TABLE `pedidos` (
   `fecha_pedido` date DEFAULT NULL,
   `estado` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`pedido_id`),
-  KEY `cliente_id` (`cliente_id`),
-  KEY `empleado_id` (`empleado_id`),
-  CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`cliente_id`),
-  CONSTRAINT `pedidos_ibfk_2` FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`empleado_id`)
+  FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`cliente_id`),
+  FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`empleado_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -278,9 +267,8 @@ CREATE TABLE `producto_suc` (
   `productoid` int NOT NULL,
   `sucursalid` int NOT NULL,
   PRIMARY KEY (`productoid`,`sucursalid`),
-  KEY `producto_suc_sucursal_FK` (`sucursalid`),
-  CONSTRAINT `producto_suc_productos_FK` FOREIGN KEY (`producto`) REFERENCES `productos` (`producto_id`),
-  CONSTRAINT `producto_suc_sucursal_FK` FOREIGN KEY (`sucursal`) REFERENCES `sucursal` (`sucursalid`)
+  FOREIGN KEY (`productoid`) REFERENCES `productos` (`producto_id`),
+  FOREIGN KEY (`sucursalid`) REFERENCES `sucursal` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -307,10 +295,8 @@ CREATE TABLE `sucursal` (
   `empresaid` varchar(20) DEFAULT NULL,
   `municipioid` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `sucursal_empresa_FK` (`empresaid`),
-  KEY `sucursal_municipio_FK` (`municipioid`),
-  CONSTRAINT `sucursal_empresa_FK` FOREIGN KEY (`empresa_id`) REFERENCES `empresa` (`id`),
-  CONSTRAINT `sucursal_municipio_FK` FOREIGN KEY (`municipio_id`) REFERENCES `municipio` (`id`)
+  FOREIGN KEY (`empresaid`) REFERENCES `empresa` (`id`),
+  FOREIGN KEY (`municipioid`) REFERENCES `municipio` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
