@@ -57,3 +57,10 @@ GROUP BY
   m.id, m.nombre, d.nombre
 ORDER BY 
   d.nombre, m.nombre;
+
+-- 5 Mostrar todos los municipios con sucursales activas (que tengan al menos un empleado).
+SELECT DISTINCT m.nombre AS municipio_nombre
+FROM municipio m
+JOIN sucursal s ON m.id = s.municipioid
+JOIN empleados e ON s.id = e.sucursalid
+WHERE e.empleado_id IS NOT NULL;
