@@ -13,3 +13,13 @@ JOIN departamento d ON m.depid = d.id
 JOIN pais p ON d.paisid = p.id;
 
 -- 2. Listar el nombre de cada cliente con su municipio, departamento y país.
+SELECT 
+  c.nombre AS nombre_cliente,
+  m.nombre AS nombre_municipio,
+  d.nombre AS nombre_departamento,
+  p.nombre AS nombre_pais
+FROM 
+  clientes c
+  LEFT JOIN municipio m ON c.municipioid = m.id
+  LEFT JOIN departamento d ON m.depid = d.id
+  LEFT JOIN pais p ON d.paisid = p.id;
